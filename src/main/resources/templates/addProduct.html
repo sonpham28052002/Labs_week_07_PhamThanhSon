@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div style="height: 50px; width: 100%; background-color: aquamarine; display: flex;justify-content: space-evenly;align-items: center">
+    <H3 th:utext="${session.get('user').getName()}"></H3>
+    <a th:href="@{/product/cart}" class="btn btn-primary" th:utext=" ${'Cart - '+session.get('cart').size()}"> </a>
+    <a th:href="@{/login/Logout}" class="btn btn-primary" >Logout</a>
+    <a th:href="@{/product/thongkeMua}" class="btn btn-primary"> Thống kê</a>
+</div>
+<div style="width: 100%; background-color: bisque; padding: 5px; display: flex; flex-wrap: wrap;justify-content: flex-start;align-items: flex-start">
+    <div th:each="product:${products}" class="card" style="width: 18rem; margin: 5px;">
+        <img class="card-img-top" th:src="@{${product.getProductImageList().get(0).path}}" src="" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title" th:utext="${product.getName()}"></h5>
+            <p class="card-text" th:utext="${product.getDescription()}"></p>
+            <p class="card-text" th:utext="${'Price: '+product.getProductPriceList().get(product.getProductPriceList().size()-1).getPrice()}"></p>
+            <form th:action="@{/product/addProduct}" >
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Số Lượng</label>
+                    <input type="number" value="1" max="5" min="1" name="soLuong" id="exampleInputEmail1">
+                </div>
+                <button style="width: 100% ; margin-top: 10px" th:value="${product.getProductId()}" name="id" class="btn btn-primary">ADD TO CART</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
